@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 # Student Course Registration Management System
 
 A **React** web application for managing student course registrations, allowing users to add, view, and update course details dynamically through an interactive and responsive interface.
@@ -61,5 +60,3 @@ The project is deployed on Vercel for seamless accessibility and fast performanc
 ## License
 
 This project is licensed under the MIT License.
-=======
->>>>>>> Stashed changes
