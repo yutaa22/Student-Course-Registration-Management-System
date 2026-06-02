@@ -1,59 +1,97 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
+import supabase from "./supabase";
 
 function App() {
 
-  const [courses, setCourses] = useState([
-    {
-      id: 1,
-      course: "React JS",
-      faculty: "Rahul Sir"
-    }
-  ]);
-
+  const [courses, setCourses] = useState([]);
   const [courseName, setCourseName] = useState("");
   const [faculty, setFaculty] = useState("");
+  const [editId, setEditId] = useState(null);
 
-  // Add Course
-  const addCourse = () => {
+  useEffect(() => {
+    fetchCourses();
+  }, []);
 
-    if(courseName === "" || faculty === "") {
+  async function fetchCourses() {
+
+  const { data, error } = await supabase
+    .from("courses")
+    .select("*")
+    .order("id", { ascending: true });
+
+  if (!error) {
+    setCourses(data);
+  }
+}
+
+  async function saveCourse() {
+
+    if (courseName === "" || faculty === "") {
       alert("Please fill all fields");
       return;
     }
 
-    const newCourse = {
-      id: courses.length + 1,
-      course: courseName,
-      faculty: faculty
-    };
+    if (editId) {
 
-    setCourses([...courses, newCourse]);
+      const { error } = await supabase
+        .from("courses")
+        .update({
+          course: courseName,
+          faculty: faculty
+        })
+        .eq("id", editId);
 
-    setCourseName("");
-    setFaculty("");
-  };
+      if (!error) {
+        fetchCourses();
+        setCourseName("");
+        setFaculty("");
+        setEditId(null);
+      }
 
-  // Update Course
-  const updateCourse = (id) => {
+    } else {
 
-    const updatedName = prompt("Enter updated course name:");
+      const { error } = await supabase
+        .from("courses")
+        .insert([
+          {
+            course: courseName,
+            faculty: faculty
+          }
+        ]);
 
-    if(updatedName) {
-
-      const updatedCourses = courses.map((c) =>
-        c.id === id ? { ...c, course: updatedName } : c
-      );
-
-      setCourses(updatedCourses);
+      if (!error) {
+        fetchCourses();
+        setCourseName("");
+        setFaculty("");
+      }
     }
-  };
+  }
+
+  function editCourse(course) {
+    setCourseName(course.course);
+    setFaculty(course.faculty);
+    setEditId(course.id);
+  }
+
+  async function deleteCourse(id) {
+
+    const { error } = await supabase
+      .from("courses")
+      .delete()
+      .eq("id", id);
+
+    if (!error) {
+      fetchCourses();
+    }
+  }
 
   return (
-
     <div className="container">
 
       <h1>Student Course Registration</h1>
+
+      <h3>Total Courses: {courses.length}</h3>
 
       <div className="form-box">
 
@@ -61,19 +99,35 @@ function App() {
           type="text"
           placeholder="Enter Course Name"
           value={courseName}
-          onChange={(e) => setCourseName(e.target.value)}
+          onChange={(e) =>
+            setCourseName(e.target.value)
+          }
         />
 
         <input
           type="text"
           placeholder="Enter Faculty Name"
           value={faculty}
-          onChange={(e) => setFaculty(e.target.value)}
+          onChange={(e) =>
+            setFaculty(e.target.value)
+          }
         />
 
-        <button onClick={addCourse}>
-          Add Course
+        <button onClick={saveCourse}>
+          {editId ? "Save Changes" : "Add Course"}
         </button>
+
+        {editId && (
+          <button
+            onClick={() => {
+              setEditId(null);
+              setCourseName("");
+              setFaculty("");
+            }}
+          >
+            Cancel
+          </button>
+        )}
 
       </div>
 
@@ -93,15 +147,29 @@ function App() {
           {courses.map((c) => (
 
             <tr key={c.id}>
+
               <td>{c.id}</td>
               <td>{c.course}</td>
               <td>{c.faculty}</td>
 
               <td>
-                <button onClick={() => updateCourse(c.id)}>
+
+                <button
+                  onClick={() => editCourse(c)}
+                >
                   Update
                 </button>
+
+                <button
+                  onClick={() =>
+                    deleteCourse(c.id)
+                  }
+                >
+                  Delete
+                </button>
+
               </td>
+
             </tr>
 
           ))}
@@ -115,5 +183,3 @@ function App() {
 }
 
 export default App;
-
- 
