@@ -1,37 +1,44 @@
-# Student Course Registration Management System
+# Student Course Registration System
 
-A **React** web application for managing student course registrations, allowing users to add, view, and update course details dynamically through an interactive and responsive interface.
+A React-based web application for managing student course registrations with full CRUD (Create, Read, Update, Delete) functionality. The application uses Supabase as the backend database and is deployed on Vercel.
 
 ---
 
 ## Project Goal
 
-The Student Course Registration Management System simplifies the process of managing course registrations by providing a centralized platform where users can:
+The Student Course Registration System allows users to efficiently manage course information through a simple and responsive interface.
 
-* Add new course registrations
-* View registered courses
-* Update existing course details
-* Manage student-course information efficiently
+Users can:
+
+* Add new courses
+* View all registered courses
+* Update course and faculty details
+* Delete courses
+* Store and retrieve data from a cloud database
 
 ---
 
 ## Tech Stack
 
-* **Frontend:** React.js
-* **Styling:** CSS / Bootstrap
-* **State Management:** React Hooks (useState)
-* **Deployment:** Vercel
+* Frontend: React.js
+* Backend Database: Supabase (PostgreSQL)
+* Language: JavaScript
+* Styling: CSS
+* Deployment: Vercel
 
 ---
 
 ## Features
 
-* Add new course registrations dynamically
-* View all registered courses in a structured format
-* Update course details without refreshing the page
+* Add Course functionality
+* View all registered courses
+* Update course information
+* Update faculty information
+* Delete courses
+* Persistent data storage using Supabase
+* Dynamic UI using React Hooks
 * Responsive and user-friendly interface
-* Real-time state updates using React Hooks
-* Clean and intuitive design for easy course management
+* Automatic deployment through Vercel
 
 ---
 
@@ -41,22 +48,60 @@ https://student-course-regis-management.vercel.app/
 
 ---
 
+## Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/yutaa22/student-course-registration.git
+```
+
+Navigate to the project folder:
+
+```bash
+cd student-course-registration
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Create a .env file:
+
+```env
+REACT_APP_SUPABASE_URL=YOUR_SUPABASE_URL
+REACT_APP_SUPABASE_ANON_KEY=YOUR_SUPABASE_KEY
+```
+
+Run the application:
+
+```bash
+npm start
+```
+
+---
+
 ## Deployment
 
-The project is deployed on Vercel for seamless accessibility and fast performance.
+The application is deployed on Vercel and connected to GitHub for automatic deployments. Any changes pushed to the main branch are automatically deployed.
 
 ---
 
-## Learning Outcomes
+## Future Enhancements
 
-* Understanding React component architecture
-* Managing application state using React Hooks
-* Handling forms and user input
-* Implementing CRUD-like operations in React
-* Deploying React applications using Vercel
+* User Authentication
+* Search Courses
+* Course Categories
+* Student Registration Module
+* Dashboard Analytics
+* Faculty Management System
 
 ---
 
-## License
+## Author
 
-This project is licensed under the MIT License.
+Panyuta Panigrahi
+
+GitHub: https://github.com/yutaa22
